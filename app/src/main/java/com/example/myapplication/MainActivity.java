@@ -24,13 +24,5 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void irRegistro(View view) {
-        Intent intent = new Intent(this, CrearPerfilActivity.class);
-        startActivity(intent);
-    }
 
-    public void irSeleccion(View view) {
-        Intent intent = new Intent(this, SeleccionarPerfilActivity.class);
-        startActivity(intent);
-    }
 }
