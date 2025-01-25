@@ -33,7 +33,7 @@ android {
 
 dependencies {
 
-    implementation("com.getbase:floatingactionbutton:1.+")
+    implementation("com.getbase:floatingactionbutton:1.10.1")
 
     implementation(libs.appcompat)
     implementation(libs.material)

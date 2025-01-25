@@ -15,7 +15,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class InicioActivity extends AppCompatActivity {
-    private FloatingActionButton fabMain, fabHeart, fabPill;
+
     private boolean isFabOpen = false;
     private TextView tvProfileName;
 
@@ -39,22 +39,6 @@ public class InicioActivity extends AppCompatActivity {
             // Muestra el nombre del perfil en el TextView
             tvProfileName.setText(perfilData.getNombre());
         }
-        FloatingActionsMenu multipleActions = findViewById(R.id.multiple_actions);
 
-        FloatingActionButton actionA = findViewById(R.id.action_a);
-        actionA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InicioActivity.this, "Action A clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        FloatingActionButton actionB = findViewById(R.id.action_b);
-        actionB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InicioActivity.this, "Action B clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
