@@ -1,6 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -32,8 +36,9 @@ public class SeleccionarPerfilActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rvPerfiles);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new PerfilAdapter(dataList);
+        adapter = new PerfilAdapter(this, dataList);
         recyclerView.setAdapter(adapter);
     }
+
+
 }
