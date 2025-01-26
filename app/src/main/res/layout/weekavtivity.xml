@@ -4,12 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/inicio"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FDFCFD"
     tools:context=".InicioActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginBottom="1dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:text="Nombre del Perfil"
             android:textSize="20sp"
             android:textStyle="bold"/>
@@ -52,7 +49,7 @@
             android:layout_weight="1"
             android:text="@string/back"
             android:textColor="@color/blue"
-            android:background="@android:color/transparent"
+            android:background="@null"
             android:textStyle="bold"
             android:onClick="previousWeekAction"
             android:textSize="20sp"/>
@@ -73,7 +70,7 @@
             android:layout_weight="1"
             android:text="@string/forward"
             android:textColor="@color/blue"
-            android:background="@android:color/transparent"
+            android:background="@null"
             android:textStyle="bold"
             android:onClick="nextWeekAction"
             android:textSize="20sp"/>
@@ -163,7 +160,7 @@
         android:layout_height="wrap_content"
         android:text="New Event"
         android:textColor="@color/blue"
-        android:background="@android:color/transparent"
+        android:background="@null"
         android:textStyle="bold"
         android:onClick="newEventAction"
         android:layout_gravity="center"
@@ -177,13 +174,13 @@
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/grupoFab"
-        android:layout_width="184dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
-        android:layout_marginLeft="28dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginLeft="28dp"
         android:layout_marginRight="28dp"
         android:layout_marginBottom="25dp">
 
@@ -191,14 +188,13 @@
             android:id="@+id/idFabConfirmar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@drawable/citaa"
-            app:fab_size="mini"
-            app:fab_title="Citas" />
+            app:fab_size="mini" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/idFabActualizar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             app:fab_icon="@drawable/medicina2"
             app:fab_size="mini"
             app:fab_title="Medicina" />
@@ -207,13 +203,20 @@
             android:id="@+id/idFabEliminar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             app:fab_icon="@drawable/fisica2"
             app:fab_size="mini"
-            app:fab_title="Actividad fixit" />
+            app:fab_title="Actividad fisica" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </LinearLayout>
+
+
+
+
+
+
 
 
 
