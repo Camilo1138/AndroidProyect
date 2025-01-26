@@ -211,6 +211,8 @@
             app:fab_size="mini"
             app:fab_title="Actividad fixit" />
 
+
+
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </LinearLayout>
