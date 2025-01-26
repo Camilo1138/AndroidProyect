@@ -204,7 +204,7 @@
             app:fab_title="Medicina" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/idFabEliminar"
+            android:id="@+id/Actividad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/fisica2"

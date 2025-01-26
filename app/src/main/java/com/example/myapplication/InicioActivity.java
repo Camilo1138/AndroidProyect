@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,6 +35,27 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inicio);
 
+        FloatingActionButton fabCitas = findViewById(R.id.idFabConfirmar);
+        FloatingActionButton fabMedicina = findViewById(R.id.idFabActualizar);
+        FloatingActionButton fabActividad = findViewById(R.id.Actividad);
+
+        // Configura listeners para los botones
+        fabCitas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Inicia la actividad para "Citas"
+                Intent intent = new Intent(InicioActivity.this, AggCitaActivity.class);
+                startActivity(intent);
+            }
+        });
+        fabActividad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Inicia la actividad para "Citas"
+                Intent intent = new Intent(InicioActivity.this, AggActividadFisicaActivity.class);
+                startActivity(intent);
+            }
+        });
         initWidgets();
         // Asegúrate de que selectedDate está inicializado
         // Inicializa la fecha seleccionada
@@ -51,6 +73,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
             // Muestra el nombre del perfil en el TextView
             tvProfileName.setText(perfilData.getNombre());
         }
+
 
     }
 
