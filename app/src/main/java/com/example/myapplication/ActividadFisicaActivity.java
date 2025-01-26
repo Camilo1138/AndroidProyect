@@ -34,3 +34,4 @@ public class ActividadFisicaActivity extends AppCompatActivity {
         recyclerViewActivities.setAdapter(activityAdapter);
     }
 }
+//3

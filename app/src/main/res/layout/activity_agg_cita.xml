@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#FDFCFD"
     tools:context=".AggCitaActivity">
-
+    <!-- Este es un comentario en XML -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"

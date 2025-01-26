@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
+//k
 public class ActFisicaAdapter extends RecyclerView.Adapter<ActFisicaAdapter.ActivityViewHolder> {
 
     private List<ActividadFisica> activityList;

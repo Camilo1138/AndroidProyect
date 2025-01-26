@@ -12,7 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
-
+//2
 public class AggCitaActivity extends AppCompatActivity {
     private static final String FILE_NAME = "citas.txt";
     @Override

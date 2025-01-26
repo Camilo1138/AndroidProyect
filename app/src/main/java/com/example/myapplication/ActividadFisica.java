@@ -5,7 +5,7 @@ public class ActividadFisica {
     private String activityType;
     private int duration;
     private String timeOfDay;
-
+//7
     public ActividadFisica(String date, String activityType, int duration, String timeOfDay) {
         this.date = date;
         this.activityType = activityType;
