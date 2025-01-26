@@ -204,13 +204,21 @@
             app:fab_title="Medicina" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/medico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/fisica2"
+            app:fab_size="mini"
+            app:fab_title="Medico" />
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/Actividad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/fisica2"
             app:fab_size="mini"
             app:fab_title="Actividad fixit" />
-
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>

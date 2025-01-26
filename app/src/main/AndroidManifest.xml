@@ -16,6 +16,12 @@
             android:name=".AggActividadFisicaActivity"
             android:exported="false" />
         <activity
+            android:name=".AgregarMedicoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListadoMedicosActivity"
+            android:exported="false" />
+        <activity
             android:name=".AggCitaActivity"
             android:exported="false" />
         <activity

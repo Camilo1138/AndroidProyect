@@ -38,6 +38,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
         FloatingActionButton fabCitas = findViewById(R.id.idFabConfirmar);
         FloatingActionButton fabMedicina = findViewById(R.id.idFabActualizar);
         FloatingActionButton fabActividad = findViewById(R.id.Actividad);
+        FloatingActionButton fabMedico = findViewById(R.id.medico);
 
         // Configura listeners para los botones
         fabCitas.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,26 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
                 startActivity(intent);
             }
         });
+
+        fabMedicina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Inicia la actividad para "Citas"
+                Intent intent = new Intent(InicioActivity.this, AgregarMedicinaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        fabMedico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Inicia la actividad para "Citas"
+                Intent intent = new Intent(InicioActivity.this, ListadoMedicosActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         initWidgets();
         // Asegúrate de que selectedDate está inicializado
         // Inicializa la fecha seleccionada
