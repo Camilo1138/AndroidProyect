@@ -76,6 +76,7 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
             return;
         }
 
+        // Formatear el medicamento como una cadena
         String medicine = name + " - " + quantity + " unidades - " + presentation +
                 " - " + dosage + " dosis - Hora: " + String.format("%02d:%02d", hour, minute);
 
@@ -155,18 +156,18 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
         }
     }
 
-    // Guardar medicinas en el archivo
-    private void saveMedicinesToFile() {
-        try {
-            FileOutputStream fileOutputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
-            for (String medicine : medicines) {
-                writer.write(medicine);
-                writer.newLine();
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+// Guardar medicinas en el archivo
+private void saveMedicinesToFile() {
+    try {
+        FileOutputStream fileOutputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+        for (String medicine : medicines) {
+            writer.write(medicine);
+            writer.newLine();
         }
+        writer.close();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 }
