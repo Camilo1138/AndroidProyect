@@ -17,8 +17,8 @@
     <EditText
         android:id="@+id/etEspecialidad"
         android:layout_width="match_parent"
-        android:textColor="@color/black"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:hint="Especialidad"
         android:inputType="text" />
 
@@ -29,6 +29,24 @@
         android:textColor="@color/black"
         android:hint="Teléfono"
         android:inputType="phone" />
+
+    <!-- Campo para Email -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <!-- Campo para Dirección -->
+    <EditText
+        android:id="@+id/etDireccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:hint="Dirección"
+        android:inputType="textPostalAddress" />
 
     <Button
         android:id="@+id/btnGuardar"
@@ -42,3 +60,4 @@
         android:layout_height="wrap_content"
         android:text="Cancelar" />
 </LinearLayout>
+
