@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mi Aplicación</string>
-
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
     <!-- Arreglo de presentaciones para el spinner -->
     <string-array name="presentations">
         <item>Pastilla</item>
