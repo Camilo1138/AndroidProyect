@@ -19,6 +19,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InicioActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
     private TextView monthYearText;
@@ -39,6 +40,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
         FloatingActionButton fabMedicina = findViewById(R.id.idFabActualizar);
         FloatingActionButton fabActividad = findViewById(R.id.Actividad);
         FloatingActionButton fabMedico = findViewById(R.id.medico);
+
 
         // Configura listeners para los botones
         fabCitas.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +137,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     protected void onResume() {
         super.onResume();
         setEventAdapter();
+
     }
 
     private void setEventAdapter() {
@@ -146,5 +149,6 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     public void newEventAction(View view) {
         startActivity(new Intent(this, EventEditActivity.class));
     }
+
 
 }

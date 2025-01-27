@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,18 +12,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-//3
+
 public class AggActividadFisicaActivity extends AppCompatActivity {
 
     private EditText editTextDate, editTextDuration;
     private Spinner spinnerActivity, spinnerTime;
     private Button btnRegister;
+
+    private Button bntmostrar;
     public static List<ActividadFisica> activityList = new ArrayList<>();
 
     @Override
@@ -34,6 +40,7 @@ public class AggActividadFisicaActivity extends AppCompatActivity {
         spinnerActivity = findViewById(R.id.spinnerActivity);
         spinnerTime = findViewById(R.id.spinnerTime);
         btnRegister = findViewById(R.id.btnRegister);
+        bntmostrar= findViewById(R.id.btnmostrar);
 
         // Configurar Spinners
         String[] activities = {"Caminar", "Trotar", "Correr", "Funcional", "Crossfit", "Entrenamiento de pesas", "Nadar"};
@@ -45,6 +52,8 @@ public class AggActividadFisicaActivity extends AppCompatActivity {
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, times);
         timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTime.setAdapter(timeAdapter);
+
+
 
         // Manejar el clic del botón de registro
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -62,29 +71,51 @@ public class AggActividadFisicaActivity extends AppCompatActivity {
                 int duration = Integer.parseInt(editTextDuration.getText().toString());
 
                 // Validar que no sea una fecha futura
-                if (isFutureDate(editTextDate.getText().toString())) {
+                if (isFutureDate(date)) {
                     Toast.makeText(AggActividadFisicaActivity.this, "La fecha no puede ser futura", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Agregar actividad a la lista
-                activityList.add(new ActividadFisica(date, activityType, duration, timeOfDay));
+                // Crear nueva actividad
+                ActividadFisica newActivity = new ActividadFisica(date, activityType, duration, timeOfDay);
+
+                // Agregar a la lista
+                activityList.add(newActivity);
+
+                // Guardar en archivo
+                saveActivityToFile(newActivity);
+
                 Toast.makeText(AggActividadFisicaActivity.this, "Actividad registrada", Toast.LENGTH_SHORT).show();
-                mostrarListaActividades();
             }
         });
+        bntmostrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AggActividadFisicaActivity.this, ActividadFisicaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
-    private void mostrarListaActividades() {
-        Collections.reverse(activityList); // Ordenar de más reciente a más antigua
-        for (ActividadFisica activity : activityList) {
-            // Aquí puedes mostrar la lista en un RecyclerView o en Logs
-            System.out.println("Actividad: " + activity.getActivityType() +
-                    " Fecha: " + activity.getDate() +
-                    " Duración: " + activity.getDuration() + " min" +
-                    " Horario: " + activity.getTimeOfDay());
+    private void saveActivityToFile(ActividadFisica activity) {
+        try {
+            String filename = "activities.txt";
+            FileOutputStream fos = openFileOutput(filename, Context.MODE_APPEND);
+            PrintWriter writer = new PrintWriter(fos);
+
+            // Escribir la actividad como una línea
+            String line = activity.getDate() + "," + activity.getActivityType() + "," + activity.getDuration() + "," + activity.getTimeOfDay();
+            writer.println(line);
+
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
     private boolean isFutureDate(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
