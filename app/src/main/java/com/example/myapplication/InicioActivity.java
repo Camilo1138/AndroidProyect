@@ -4,6 +4,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.view.View;
@@ -17,8 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class InicioActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
@@ -137,17 +146,74 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     protected void onResume() {
         super.onResume();
         setEventAdapter();
+        loadActivitiesFromFile();
 
     }
 
     private void setEventAdapter() {
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
-        eventListView.setAdapter(eventAdapter);
+        ArrayList<ActividadFisica> dailyActivities = getActivitiesForDate(CalendarUtils.selectedDate);
+
+        // Crear una lista combinada de eventos y actividades físicas
+        ArrayList<String> combinedList = new ArrayList<>();
+
+        // Agregar eventos a la lista combinada
+        for (Event event : dailyEvents) {
+            combinedList.add("Evento: " + event.getName() + " - " + event.getTime());
+        }
+
+        // Agregar actividades físicas a la lista combinada
+        for (ActividadFisica activity : dailyActivities) {
+            combinedList.add("Actividad: " + activity.getActivityType() + " - " + activity.getTimeOfDay() + " - " + activity.getDuration() + " mins");
+        }
+
+        // Crear el adaptador para el ListView
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, combinedList);
+        eventListView.setAdapter(adapter);
     }
+
 
     public void newEventAction(View view) {
         startActivity(new Intent(this, EventEditActivity.class));
+    }
+
+    private ArrayList<ActividadFisica> getActivitiesForDate(LocalDate date) {
+        ArrayList<ActividadFisica> activitiesForDate = new ArrayList<>();
+        for (ActividadFisica activity : AggActividadFisicaActivity.activityList) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                Date activityDate = sdf.parse(activity.getDate());
+                LocalDate activityLocalDate = activityDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (activityLocalDate.equals(date)) {
+                    activitiesForDate.add(activity);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return activitiesForDate;
+    }
+
+    private void loadActivitiesFromFile() {
+        try {
+            FileInputStream fis = openFileInput("activities.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] activityData = line.split(",");
+                String date = activityData[0];
+                String activityType = activityData[1];
+                int duration = Integer.parseInt(activityData[2]);
+                String timeOfDay = activityData[3];
+                ActividadFisica activity = new ActividadFisica(date, activityType, duration, timeOfDay);
+                if (!AggActividadFisicaActivity.activityList.contains(activity)) {
+                    AggActividadFisicaActivity.activityList.add(activity);
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
