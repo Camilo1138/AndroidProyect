@@ -14,17 +14,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Button buttonOpenSecondActivity = findViewById(R.id.startButton);
-        buttonOpenSecondActivity.setOnClickListener(new View.OnClickListener() {
+
+        // Botón para abrir la actividad de agregar medicamentos
+        Button buttonOpenAddMedicineActivity = findViewById(R.id.openAddMedicineActivity);  // Asegúrate de usar el ID correcto
+        buttonOpenAddMedicineActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CrearUserActivity.class);
+                // Abre la actividad de agregar medicinas
+                Intent intent = new Intent(MainActivity.this, AgregarMedicinaActivity.class);
                 startActivity(intent);
             }
-
         });
     }
-
-
-
 }
