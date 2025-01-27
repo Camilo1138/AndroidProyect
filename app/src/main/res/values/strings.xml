@@ -1,5 +1,14 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="back"><![CDATA[<-]]></string>
-    <string name="forward"><![CDATA[->]]></string>
+    <string name="app_name">Mi Aplicación</string>
+
+    <!-- Arreglo de presentaciones para el spinner -->
+    <string-array name="presentations">
+        <item>Pastilla</item>
+        <item>Inyección</item>
+        <item>Solución</item>
+        <item>Gotas</item>
+        <item>Inhalador</item>
+        <item>Polvo</item>
+    </string-array>
+
 </resources>
