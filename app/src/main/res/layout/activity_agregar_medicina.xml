@@ -1,53 +1,92 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FDFCFD"
-    android:id="@+id/medicina_layout"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gestión de Medicamentos"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-
+    <!-- Nombre del medicamento -->
     <EditText
         android:id="@+id/et_medicine_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Medicamento"
-        android:layout_marginTop="16dp"/>
+        android:hint="Nombre del medicamento"
+        android:inputType="text" />
 
+    <!-- Cantidad disponible -->
+    <EditText
+        android:id="@+id/et_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_medicine_name"
+        android:hint="Cantidad de unidades"
+        android:inputType="number" />
+
+    <!-- Dosis -->
     <EditText
         android:id="@+id/et_dosage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/et_quantity"
         android:hint="Dosis"
-        android:layout_marginTop="8dp"/>
+        android:inputType="numberDecimal" />
 
-    <TimePicker
-        android:id="@+id/tp_time"
+    <!-- Texto para la opción de presentación -->
+    <TextView
+        android:id="@+id/tv_presentation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_dosage"
+        android:layout_marginTop="10dp"
+        android:text="Presentación: Seleccione una opción de presentación:"
+        android:textSize="16sp" />
+
+    <!-- Spinner de presentación -->
+    <Spinner
+        android:id="@+id/spinner_presentation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:timePickerMode="spinner"/>
+        android:layout_below="@id/tv_presentation"
+        android:layout_marginTop="5dp" />
 
+    <!-- Selector de hora -->
+    <android.widget.TimePicker
+        android:id="@+id/tp_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_presentation"
+        android:layout_marginTop="2dp"
+        android:timePickerMode="spinner" />
+
+    <!-- Botones -->
     <Button
         android:id="@+id/btn_add"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Añadir Medicamento"
-        android:layout_marginTop="16dp"/>
+        android:layout_below="@id/tp_time"
+        android:text="Añadir Medicamento" />
 
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_add"
+        android:text="Eliminar Medicamento" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_delete"
+        android:text="Registrar Toma" />
+
+    <!-- Lista de medicamentos -->
     <ListView
         android:id="@+id/lv_medicines"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"/>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_register" />
+
+</RelativeLayout>
+
+
+
