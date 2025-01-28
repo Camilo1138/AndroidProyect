@@ -146,6 +146,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     protected void onResume() {
         super.onResume();
         setEventAdapter();
+        loadMedicinesFromFile();
         loadActivitiesFromFile();
 
     }
@@ -153,24 +154,31 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     private void setEventAdapter() {
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
         ArrayList<ActividadFisica> dailyActivities = getActivitiesForDate(CalendarUtils.selectedDate);
+        ArrayList<String> dailyMedicines = getMedicinesForToday();
+        ArrayList<String> dailyCitas = getCitasForDate(CalendarUtils.selectedDate); // Citas del día
 
-        // Crear una lista combinada de eventos y actividades físicas
         ArrayList<String> combinedList = new ArrayList<>();
 
-        // Agregar eventos a la lista combinada
         for (Event event : dailyEvents) {
             combinedList.add("Evento: " + event.getName() + " - " + event.getTime());
         }
 
-        // Agregar actividades físicas a la lista combinada
         for (ActividadFisica activity : dailyActivities) {
             combinedList.add("Actividad: " + activity.getActivityType() + " - " + activity.getTimeOfDay() + " - " + activity.getDuration() + " mins");
         }
 
-        // Crear el adaptador para el ListView
+        for (String medicine : dailyMedicines) {
+            combinedList.add("Medicina: " + medicine);
+        }
+
+        for (String cita : dailyCitas) {
+            combinedList.add(cita);
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, combinedList);
         eventListView.setAdapter(adapter);
     }
+
 
 
     public void newEventAction(View view) {
@@ -215,6 +223,69 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
             e.printStackTrace();
         }
     }
+
+
+    private void loadMedicinesFromFile() {
+        try {
+            FileInputStream fis = openFileInput("medicines_data.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Verifica si la medicina corresponde a la fecha actual
+                String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+                if (line.startsWith(currentDate) && !AgregarMedicinaActivity.medicines.contains(line)) {
+                    AgregarMedicinaActivity.medicines.add(line); // Solo agregar si no está ya en la lista
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private ArrayList<String> getMedicinesForToday() {
+        ArrayList<String> medicinesForToday = new ArrayList<>();
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+
+        // Filtrar solo medicinas de la fecha actual
+        for (String medicine : AgregarMedicinaActivity.medicines) {
+            if (medicine.startsWith(currentDate)) { // Verifica si la medicina empieza con la fecha actual
+                medicinesForToday.add(medicine);
+            }
+        }
+
+        return medicinesForToday;
+    }
+    private ArrayList<String> getCitasForDate(LocalDate date) {
+        ArrayList<String> citasForDate = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        try (FileInputStream fis = openFileInput(AggCitaActivity.FILE_NAME);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(fis))) {
+            String line;
+            StringBuilder cita = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    String[] citaData = cita.toString().split("\n");
+                    String fechaCita = citaData[2].split(": ")[1]; // Fecha está en la línea 3 (índice 2)
+                    Date citaDate = sdf.parse(fechaCita);
+                    LocalDate citaLocalDate = citaDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                    if (citaLocalDate.equals(date)) {
+                        citasForDate.add("Cita: " + citaData[0].split(": ")[1] + " con " + citaData[1].split(": ")[1]);
+                    }
+                    cita.setLength(0); // Reinicia para la próxima cita
+                } else {
+                    cita.append(line).append("\n");
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return citasForDate;
+    }
+
 
 
 }

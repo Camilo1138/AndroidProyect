@@ -2,19 +2,34 @@ package com.example.myapplication;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-//2
+import java.util.Collections;
+import java.util.List;
+
 public class AggCitaActivity extends AppCompatActivity {
-    private static final String FILE_NAME = "citas.txt";
+    public static final String FILE_NAME = "citas.txt";
+    private Spinner spinnerMedicos;
+    private String fechaSeleccionada;
+    private String horaSeleccionada;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +37,12 @@ public class AggCitaActivity extends AppCompatActivity {
 
         Button btnSelectDate = findViewById(R.id.btnSelectDate);
         Button btnSelectTime = findViewById(R.id.btnSelectTime);
+        spinnerMedicos = findViewById(R.id.spinnerMedicos);
+        EditText etTitulo = findViewById(R.id.etTitulo);
+        Button btnlista_citas = findViewById(R.id.btnlista_citas);
+
+        // Cargar médicos en el Spinner
+        cargarMedicosEnSpinner();
 
         // Obtener la fecha y hora actuales
         Calendar calendar = Calendar.getInstance();
@@ -31,15 +52,12 @@ public class AggCitaActivity extends AppCompatActivity {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            // Mostrar el DatePickerDialog
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     AggCitaActivity.this,
-                    (view, selectedYear, selectedMonth, selectedDay) ->
-                            Toast.makeText(
-                                    AggCitaActivity.this,
-                                    "Fecha seleccionada: " + selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear,
-                                    Toast.LENGTH_SHORT
-                            ).show(),
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        fechaSeleccionada = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        Toast.makeText(AggCitaActivity.this, "Fecha seleccionada: " + fechaSeleccionada, Toast.LENGTH_SHORT).show();
+                    },
                     year,
                     month,
                     day
@@ -51,50 +69,136 @@ public class AggCitaActivity extends AppCompatActivity {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
 
-            // Mostrar el TimePickerDialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(
                     AggCitaActivity.this,
-                    (view, selectedHour, selectedMinute) ->
-                            Toast.makeText(
-                                    AggCitaActivity.this,
-                                    "Hora seleccionada: " + selectedHour + ":" + selectedMinute,
-                                    Toast.LENGTH_SHORT
-                            ).show(),
+                    (view, selectedHour, selectedMinute) -> {
+                        horaSeleccionada = selectedHour + ":" + selectedMinute;
+                        Toast.makeText(AggCitaActivity.this, "Hora seleccionada: " + horaSeleccionada, Toast.LENGTH_SHORT).show();
+
+                    },
                     hour,
                     minute,
-                    true // true para formato de 24 horas
+                    true
             );
             timePickerDialog.show();
         });
-    }
-    private void guardarCita(String titulo, String medico, String hora, boolean addToCalendar) {
-        String cita = "Título: " + titulo + "\nMédico: " + medico + "\nHora: " + hora + "\nAgregar al calendario: " + addToCalendar + "\n\n";
-        FileOutputStream fos = null;
 
-        try {
-            fos = openFileOutput(FILE_NAME, MODE_APPEND);
-            fos.write(cita.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Button btnGuardar = findViewById(R.id.btnGuardar);
+        btnGuardar.setOnClickListener(v -> {
+            String titulo = etTitulo.getText().toString();
+            String medico = spinnerMedicos.getSelectedItem().toString();
+            guardarCita(titulo, medico);
+        });
+        btnlista_citas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AggCitaActivity.this, CitasActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void cargarMedicosEnSpinner() {
+        // Cargar la lista de médicos desde el archivo
+        ArrayList<Medico> listaMedicos = Medico.cargarMedicosDesdeArchivo(getArchivoMedicosPath());
+
+        if (listaMedicos.isEmpty()) {
+            // Mostrar Toast si no hay médicos registrados
+            spinnerMedicos.setOnTouchListener((v, event) -> {
+                Toast.makeText(this, "No hay médicos registrados", Toast.LENGTH_SHORT).show();
+                return true; // Evitar mostrar el Spinner vacío
+            });
+        } else {
+            // Crear un ArrayAdapter con los nombres de los médicos
+            ArrayList<String> nombresMedicos = new ArrayList<>();
+            for (Medico medico : listaMedicos) {
+                nombresMedicos.add(medico.getNombre());
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    nombresMedicos
+            );
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerMedicos.setAdapter(adapter);
         }
     }
+    private String getArchivoMedicosPath() {
+        return new File(getFilesDir(), "medicos.dat").getPath();
+    }
 
-    private String leerCitas() {
-        FileInputStream fis = null;
+    private void guardarCita(String titulo, String medico) {
+        if (fechaSeleccionada == null || horaSeleccionada == null) {
+            Toast.makeText(this, "Por favor, seleccione una fecha y una hora.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Crear la cita en formato estructurado (JSON o simple String)
+        String cita = "titulo: " + titulo + "\nmedico: " + medico + "\nFecha: " + fechaSeleccionada + "\nHora: " + horaSeleccionada + "\n\n";
+
+        // Validar que la cita no exista
+        ArrayList<String> citasExistentes = leerCitasDesdeArchivo();
+        if (citasExistentes.contains(cita)) {
+            Toast.makeText(this, "Esta cita ya existe.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Guardar la nueva cita
+        try (FileOutputStream fos = openFileOutput(FILE_NAME, MODE_APPEND)) {
+            fos.write(cita.getBytes());
+            Toast.makeText(this, "Cita guardada", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al guardar la cita", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private ArrayList<String> leerCitasDesdeArchivo() {
+        ArrayList<String> citas = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
-        try {
-            fis = openFileInput(FILE_NAME);
-            int ch;
-            while ((ch = fis.read()) != -1) {
-                sb.append((char) ch);
+        try (FileInputStream fis = openFileInput(FILE_NAME)) {
+            int character;
+            while ((character = fis.read()) != -1) {
+                sb.append((char) character);
             }
-            fis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return sb.toString();
+        String[] citasArray = sb.toString().split("\n\n");
+        Collections.addAll(citas, citasArray);
+
+        return citas;
     }
+
+    // Método para leer todas las citas desde el archivo
+    private ArrayList<Cita> leerCitasComoObjetos() {
+        ArrayList<Cita> citas = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        try (FileInputStream fis = openFileInput(AggCitaActivity.FILE_NAME)) {
+            int character;
+            while ((character = fis.read()) != -1) {
+                sb.append((char) character);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] citasArray = sb.toString().split("\n\n");
+        for (String citaStr : citasArray) {
+            String[] campos = citaStr.split("\n");
+            String titulo = campos[0].split(": ")[1];
+            String medico = campos[1].split(": ")[1];
+            String fecha = campos[2].split(": ")[1];
+            String hora = campos[3].split(": ")[1];
+
+            citas.add(new Cita(titulo, medico, fecha, hora));
+        }
+
+        return citas;
+    }
+
+
 }

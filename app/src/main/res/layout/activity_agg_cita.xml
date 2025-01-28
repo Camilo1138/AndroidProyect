@@ -24,7 +24,7 @@
         android:layout_marginHorizontal="16dp" />
 
     <Spinner
-        android:id="@+id/spinnerMedico"
+        android:id="@+id/spinnerMedicos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/etTitulo"
@@ -39,7 +39,7 @@
         android:text="Seleccionar Fecha"
         android:background="@android:color/transparent"
         android:textColor="@color/black"
-        android:layout_below="@id/spinnerMedico"
+        android:layout_below="@id/spinnerMedicos"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp" />
 
@@ -61,5 +61,13 @@
         android:text="Guardar Cita"
         android:layout_below="@id/btnSelectTime"
         android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/btnlista_citas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lista citas"
+        android:layout_below="@id/btnSelectTime"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

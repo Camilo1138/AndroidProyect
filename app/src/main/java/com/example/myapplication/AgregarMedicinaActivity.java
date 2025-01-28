@@ -7,6 +7,7 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class AgregarMedicinaActivity extends AppCompatActivity {
@@ -18,7 +19,8 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
     private ListView lvMedicines;
 
     private ArrayAdapter<String> medicineAdapter;
-    private ArrayList<String> medicines;
+    public static ArrayList<String> medicines = new ArrayList<>();
+    ;
 
     private static final String FILE_NAME = "medicines_data.txt";  // Nombre del archivo donde guardaremos los datos
 
@@ -62,7 +64,11 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
         // Botón para registrar toma
         btnRegister.setOnClickListener(v -> registerDose());
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMedicinesFromFile(); // Filtrar medicinas por la fecha actual al reanudar
+    }
     private void addMedicine() {
         String name = etMedicineName.getText().toString().trim();
         String quantity = etQuantity.getText().toString().trim();
@@ -76,8 +82,11 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
             return;
         }
 
-        // Formatear el medicamento como una cadena
-        String medicine = name + " - " + quantity + " unidades - " + presentation +
+        // Obtener la fecha actual
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+
+        // Formatear el medicamento con la fecha
+        String medicine = currentDate + " - " + name + " - " + quantity + " unidades - " + presentation +
                 " - " + dosage + " dosis - Hora: " + String.format("%02d:%02d", hour, minute);
 
         medicines.add(medicine);
@@ -93,6 +102,8 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
         etDosage.setText("");
         spinnerPresentation.setSelection(0);
     }
+
+
 
     private void deleteMedicine() {
         int position = lvMedicines.getCheckedItemPosition();
@@ -142,19 +153,27 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
 
     // Cargar medicinas desde el archivo
     private void loadMedicinesFromFile() {
+        medicines.clear(); // Limpiar la lista antes de cargar
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()); // Fecha actual
+
         try {
             FileInputStream fileInputStream = openFileInput(FILE_NAME);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
             String line;
+
             while ((line = reader.readLine()) != null) {
-                medicines.add(line);
+                if (line.startsWith(currentDate)) { // Verificar si la medicina corresponde a la fecha actual
+                    medicines.add(line);
+                }
             }
+
             reader.close();
-            medicineAdapter.notifyDataSetChanged();
+            medicineAdapter.notifyDataSetChanged(); // Actualizar el adaptador con las medicinas filtradas
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 // Guardar medicinas en el archivo
 private void saveMedicinesToFile() {
