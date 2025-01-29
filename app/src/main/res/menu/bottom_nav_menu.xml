@@ -4,12 +4,16 @@
         android:id="@+id/nav_home"
         android:icon="@drawable/citaa"
         android:title="Inicio" />
-    <item
-        android:id="@+id/nav_search"
-        android:icon="@drawable/citaa"
-        android:title="Buscar" />
+
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/citaa"
         android:title="Perfil" />
+
+    <item
+        android:id="@+id/nav_act"
+        android:icon="@drawable/citaa"
+        android:title="Actividades" />
+
+
 </menu>

@@ -4,12 +4,14 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -36,6 +39,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
 
+    private BottomNavigationView bottomNavigationView;
 
     private boolean isFabOpen = false;
     private TextView tvProfileName;
@@ -51,8 +55,8 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
         FloatingActionButton fabMedicina = findViewById(R.id.idFabActualizar);
         FloatingActionButton fabActividad = findViewById(R.id.Actividad);
         FloatingActionButton fabMedico = findViewById(R.id.medico);
-
         fabMedico.setTitle("Medicos");
+
 
         // Configura listeners para los botones
         fabCitas.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +115,7 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
 
 
     }
+
 
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
