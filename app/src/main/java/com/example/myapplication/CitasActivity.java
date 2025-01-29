@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,9 +25,14 @@ public class CitasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_citas);
+        Button btnRegresar = findViewById(R.id.btnRegresar);
+        btnRegresar.setOnClickListener(v -> {
+            finish();
+        });
 
         recyclerView = findViewById(R.id.recyclerViewcitas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         listaCitas = new ArrayList<>();
         leerCitasDesdeArchivo();

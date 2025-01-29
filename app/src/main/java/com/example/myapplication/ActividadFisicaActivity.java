@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,11 +35,16 @@ public class ActividadFisicaActivity extends AppCompatActivity {
 
         // Ordenar de más reciente a más antigua
         Collections.reverse(activityList);
+        Button btnRegresar = findViewById(R.id.btnRegresar);
 
         // Configurar el RecyclerView
         activityAdapter = new ActFisicaAdapter(activityList);
         recyclerViewActivities.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewActivities.setAdapter(activityAdapter);
+
+        btnRegresar.setOnClickListener(v -> {
+            finish();
+        });
 
 
     }

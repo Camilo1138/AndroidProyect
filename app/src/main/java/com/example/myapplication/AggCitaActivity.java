@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -41,6 +42,7 @@ public class AggCitaActivity extends AppCompatActivity {
         EditText etTitulo = findViewById(R.id.etTitulo);
         Button btnlista_citas = findViewById(R.id.btnlista_citas);
         Button btnGuardar= findViewById(R.id.btnGuardar);
+        Button btnSalir = findViewById(R.id.btnSalir);
 
         // Cargar médicos en el Spinner
         cargarMedicosEnSpinner();
@@ -64,6 +66,10 @@ public class AggCitaActivity extends AppCompatActivity {
                     day
             );
             datePickerDialog.show();
+        });
+
+        btnSalir.setOnClickListener(v -> {
+            finish(); // Finaliza esta actividad y regresa a la actividad anterior
         });
 
         btnSelectTime.setOnClickListener(v -> {

@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -16,13 +17,16 @@ public class ListadoMedicosActivity extends AppCompatActivity {
     private ListView listViewMedicos;
     private Button btnAgregarMedico;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_medicos);
 
+        // Referencias de vistas
         listViewMedicos = findViewById(R.id.listViewMedicos);
         btnAgregarMedico = findViewById(R.id.btnAgregarMedico);
+        Button btnSalir = findViewById(R.id.btnSalir);
 
         // Mostrar la lista de médicos
         actualizarLista();
@@ -31,6 +35,11 @@ public class ListadoMedicosActivity extends AppCompatActivity {
         btnAgregarMedico.setOnClickListener(v -> {
             Intent intent = new Intent(this, AgregarMedicoActivity.class);
             startActivity(intent);
+        });
+
+        // Salir de la actividad y regresar a la pantalla anterior
+        btnSalir.setOnClickListener(v -> {
+            finish(); // Finaliza esta actividad y regresa a la actividad anterior
         });
     }
 

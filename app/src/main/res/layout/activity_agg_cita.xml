@@ -62,6 +62,16 @@
         android:layout_below="@id/btnSelectTime"
         android:layout_marginTop="24dp"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnSalir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnlista_citas"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="9dp"
+        android:text="Salir" />
+
     <Button
         android:id="@+id/btnlista_citas"
         android:layout_width="wrap_content"
@@ -70,4 +80,6 @@
         android:layout_below="@id/btnSelectTime"
         android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>
