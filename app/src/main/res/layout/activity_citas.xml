@@ -5,18 +5,26 @@
     android:orientation="vertical"
     android:padding="16dp">
     <!-- Este es un comentario en XML -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="Lista de Citas"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal" />
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewcitas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="496dp"
         android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnRegresar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Regresar" />
 
 </LinearLayout>

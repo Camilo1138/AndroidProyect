@@ -41,6 +41,7 @@ public class AggActividadFisicaActivity extends AppCompatActivity {
         spinnerTime = findViewById(R.id.spinnerTime);
         btnRegister = findViewById(R.id.btnRegister);
         bntmostrar= findViewById(R.id.btnmostrar);
+        Button btnSalir = findViewById(R.id.btnSalir);
 
         // Configurar Spinners
         String[] activities = {"Caminar", "Trotar", "Correr", "Funcional", "Crossfit", "Entrenamiento de pesas", "Nadar"};
@@ -95,9 +96,12 @@ public class AggActividadFisicaActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Finaliza la actividad actual y regresa a la anterior
+            }
+        });
     }
 
     private void saveActivityToFile(ActividadFisica activity) {
