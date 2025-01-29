@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -44,12 +45,14 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inicio);
+        FloatingActionsMenu floatingActionsMenu = findViewById(R.id.grupoFab);
 
         FloatingActionButton fabCitas = findViewById(R.id.idFabConfirmar);
         FloatingActionButton fabMedicina = findViewById(R.id.idFabActualizar);
         FloatingActionButton fabActividad = findViewById(R.id.Actividad);
         FloatingActionButton fabMedico = findViewById(R.id.medico);
 
+        fabMedico.setTitle("Medicos");
 
         // Configura listeners para los botones
         fabCitas.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +157,8 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
     private void setEventAdapter() {
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
         ArrayList<ActividadFisica> dailyActivities = getActivitiesForDate(CalendarUtils.selectedDate);
-        ArrayList<String> dailyMedicines = getMedicinesForToday();
+        ArrayList<String> dailyMedicines = getMedicinesForDate(CalendarUtils.selectedDate);
+
         ArrayList<String> dailyCitas = getCitasForDate(CalendarUtils.selectedDate); // Citas del día
 
         ArrayList<String> combinedList = new ArrayList<>();
@@ -242,19 +246,19 @@ public class InicioActivity extends AppCompatActivity implements CalendarAdapter
             e.printStackTrace();
         }
     }
-    private ArrayList<String> getMedicinesForToday() {
-        ArrayList<String> medicinesForToday = new ArrayList<>();
-        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+    private ArrayList<String> getMedicinesForDate(LocalDate date) {
+        ArrayList<String> medicinesForDate = new ArrayList<>();
+        String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-        // Filtrar solo medicinas de la fecha actual
         for (String medicine : AgregarMedicinaActivity.medicines) {
-            if (medicine.startsWith(currentDate)) { // Verifica si la medicina empieza con la fecha actual
-                medicinesForToday.add(medicine);
+            if (medicine.startsWith(selectedDate)) {
+                medicinesForDate.add(medicine);
             }
         }
 
-        return medicinesForToday;
+        return medicinesForDate;
     }
+
     private ArrayList<String> getCitasForDate(LocalDate date) {
         ArrayList<String> citasForDate = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

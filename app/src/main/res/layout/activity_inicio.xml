@@ -32,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/black"
             android:layout_marginBottom="1dp"
             android:layout_marginLeft="30dp"
             android:text="Nombre del Perfil"
@@ -158,19 +159,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Event"
-        android:textColor="@color/blue"
-        android:background="@android:color/transparent"
-        android:textStyle="bold"
-        android:onClick="newEventAction"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
+
 
     <ListView
         android:id="@+id/eventListView"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"/>
@@ -207,7 +200,8 @@
             android:id="@+id/medico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@drawable/fisica2"
+            android:layout_gravity="bottom|end"
+            app:fab_icon="@drawable/me_dico"
             app:fab_size="mini"
             app:fab_title="Medico" />
 

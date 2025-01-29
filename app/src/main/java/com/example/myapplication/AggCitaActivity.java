@@ -40,6 +40,7 @@ public class AggCitaActivity extends AppCompatActivity {
         spinnerMedicos = findViewById(R.id.spinnerMedicos);
         EditText etTitulo = findViewById(R.id.etTitulo);
         Button btnlista_citas = findViewById(R.id.btnlista_citas);
+        Button btnGuardar= findViewById(R.id.btnGuardar);
 
         // Cargar médicos en el Spinner
         cargarMedicosEnSpinner();
@@ -83,7 +84,6 @@ public class AggCitaActivity extends AppCompatActivity {
             timePickerDialog.show();
         });
 
-        Button btnGuardar = findViewById(R.id.btnGuardar);
         btnGuardar.setOnClickListener(v -> {
             String titulo = etTitulo.getText().toString();
             String medico = spinnerMedicos.getSelectedItem().toString();
@@ -129,30 +129,42 @@ public class AggCitaActivity extends AppCompatActivity {
     }
 
     private void guardarCita(String titulo, String medico) {
+        // Validar datos vacíos
+        if (titulo.isEmpty() || medico.isEmpty()) {
+            Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (fechaSeleccionada == null || horaSeleccionada == null) {
             Toast.makeText(this, "Por favor, seleccione una fecha y una hora.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Crear la cita en formato estructurado (JSON o simple String)
+        // Crear la cita
         String cita = "titulo: " + titulo + "\nmedico: " + medico + "\nFecha: " + fechaSeleccionada + "\nHora: " + horaSeleccionada + "\n\n";
 
-        // Validar que la cita no exista
+        // Leer citas existentes
         ArrayList<String> citasExistentes = leerCitasDesdeArchivo();
-        if (citasExistentes.contains(cita)) {
-            Toast.makeText(this, "Esta cita ya existe.", Toast.LENGTH_SHORT).show();
-            return;
+        String citaNormalizada = cita.trim();
+
+        for (String citaExistente : citasExistentes) {
+            if (citaExistente.trim().equals(citaNormalizada)) {
+                Toast.makeText(this, "Esta cita ya existe.", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
-        // Guardar la nueva cita
+        // Guardar la cita en el archivo
         try (FileOutputStream fos = openFileOutput(FILE_NAME, MODE_APPEND)) {
             fos.write(cita.getBytes());
-            Toast.makeText(this, "Cita guardada", Toast.LENGTH_SHORT).show();
+            fos.flush();
+            Toast.makeText(this, "Cita guardada correctamente", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
+            Toast.makeText(this, "Error al guardar la cita: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
-            Toast.makeText(this, "Error al guardar la cita", Toast.LENGTH_SHORT).show();
         }
     }
+
     private ArrayList<String> leerCitasDesdeArchivo() {
         ArrayList<String> citas = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
