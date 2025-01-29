@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
+        import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class AgregarMedicinaActivity extends AppCompatActivity {
@@ -20,7 +20,6 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> medicineAdapter;
     public static ArrayList<String> medicines = new ArrayList<>();
-    ;
 
     private static final String FILE_NAME = "medicines_data.txt";  // Nombre del archivo donde guardaremos los datos
 
@@ -64,11 +63,13 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
         // Botón para registrar toma
         btnRegister.setOnClickListener(v -> registerDose());
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         loadMedicinesFromFile(); // Filtrar medicinas por la fecha actual al reanudar
     }
+
     private void addMedicine() {
         String name = etMedicineName.getText().toString().trim();
         String quantity = etQuantity.getText().toString().trim();
@@ -102,8 +103,6 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
         etDosage.setText("");
         spinnerPresentation.setSelection(0);
     }
-
-
 
     private void deleteMedicine() {
         int position = lvMedicines.getCheckedItemPosition();
@@ -174,19 +173,18 @@ public class AgregarMedicinaActivity extends AppCompatActivity {
         }
     }
 
-
-// Guardar medicinas en el archivo
-private void saveMedicinesToFile() {
-    try {
-        FileOutputStream fileOutputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
-        for (String medicine : medicines) {
-            writer.write(medicine);
-            writer.newLine();
+    // Guardar medicinas en el archivo
+    private void saveMedicinesToFile() {
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+            for (String medicine : medicines) {
+                writer.write(medicine);
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        writer.close();
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-}
 }
